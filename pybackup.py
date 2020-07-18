@@ -2,6 +2,9 @@ import configparser
 import zipfile
 
 
-# Read the config file for directories and archives names
+# Parse the config file
+config = configparser.ConfigParser()
+config.read("pybackup.ini")
+print(config.sections())
 
 # Zip the directories to the specified archives
