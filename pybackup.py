@@ -26,3 +26,8 @@ for key in list(config.keys())[1:]:
 
 
 # Zip the directories to the specified archives
+for archive_name, target_dirs in zip(archive_names, dirs_names):
+	# Initialize a ZipFile
+	# Loop through the directories
+		# ChDir to all the parent directories and zip the specified
+	pass
