@@ -28,6 +28,11 @@ for key in list(config.keys())[1:]:
 # Zip the directories to the specified archives
 for archive_name, target_dirs in zip(archive_names, dirs_names):
 	# Initialize a ZipFile
+	archive_file = zipfile.ZipFile(archive_name, 'w',
+		zipfile.ZIP_DEFLATED, compresslevel=5)
+
 	# Loop through the directories
 		# ChDir to all the parent directories and zip the specified
-	pass
+
+	# Close the file
+	archive_file.close()
