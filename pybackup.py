@@ -22,7 +22,7 @@ config.read(config_path)
 
 
 # Parse the settings from config file
-# Default overall settings
+# General overall settings
 # This is really messy... TODO fix this
 methods = [
 	zipfile.ZIP_STORED,
@@ -30,8 +30,8 @@ methods = [
 	zipfile.ZIP_BZIP2,
 	zipfile.ZIP_LZMA
 ]
-compression_method = methods[int(config["DEFAULT"]["compression_method"])]
-compression_level = int(config["DEFAULT"]["compression_level"])
+compression_method = methods[int(config["general"]["compression_method"])]
+compression_level = int(config["general"]["compression_level"])
 
 # Archiving settings
 archive_names = []
