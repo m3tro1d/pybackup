@@ -21,7 +21,19 @@ config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 config.read(config_path)
 
 
-# Get the config values, but skip the DEFAULT
+# Parse the settings from config file
+# Default overall settings
+# This is really messy... TODO fix this
+methods = [
+	zipfile.ZIP_STORED,
+	zipfile.ZIP_DEFLATED,
+	zipfile.ZIP_BZIP2,
+	zipfile.ZIP_LZMA
+]
+compression_method = methods[int(config["DEFAULT"]["compression_method"])]
+compression_level = int(config["DEFAULT"]["compression_level"])
+
+# Archiving settings
 archive_names = []
 dirs_names = []
 for key in list(config.keys())[1:]:
@@ -34,7 +46,6 @@ for key in list(config.keys())[1:]:
 		for dir_key in config[key]:
 			current_dirs.append(config[key][dir_key])
 		dirs_names.append(current_dirs)
-
 
 # Zip the directories to the specified archives
 for archive_name, target_dirs in zip(archive_names, dirs_names):
