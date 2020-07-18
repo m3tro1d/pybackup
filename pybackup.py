@@ -3,6 +3,16 @@ import os
 import zipfile
 
 
+def zip_dir_rec(dirname, archive):
+	"""Zips a directory with all files recursively"""
+	for entry in os.scandir(dirname):
+		# Scan directories recursively
+		if os.path.isdir(entry):
+			zip_dir_rec(entry, archive)
+		else:
+			archive.write(entry.path)
+
+
 # Parse the config file
 config = configparser.ConfigParser()
 config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -37,8 +47,7 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 		parent_dir = os.path.dirname(target_dir)
 		archived_dir = os.path.basename(target_dir)
 		os.chdir(parent_dir)
-		# This writes only directory :(
-		archive_file.write(archived_dir)
+		zip_dir_rec(archived_dir, archive_file)
 
 	# Close the file
 	archive_file.close()
