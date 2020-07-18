@@ -1,5 +1,4 @@
 # TODO add logging
-# TODO add compression method and level settings
 import configparser
 import os
 import zipfile
