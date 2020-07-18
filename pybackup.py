@@ -53,6 +53,8 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 	# Initialize a ZipFile
 	archive_file = zipfile.ZipFile(archive_name, 'w',
 		compression_method, compresslevel=compression_level)
+	# Log the archive file
+	print("Archiving to {}:".format(os.path.basename(archive_name)))
 	# Loop through the directories
 	for target_dir in target_dirs:
 		# Zip the directories relatively to their parent directory
@@ -60,5 +62,7 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 		archived_dir = os.path.basename(target_dir)
 		os.chdir(parent_dir)
 		zip_dir_rec(archived_dir, archive_file)
+		# Log the action
+		print("  + {}".format(archived_dir))
 	# Close the file
 	archive_file.close()
