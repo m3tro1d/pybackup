@@ -1,4 +1,3 @@
-# TODO add logging
 import configparser
 import os
 import zipfile
