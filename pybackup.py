@@ -51,7 +51,7 @@ for key in list(config.keys())[1:]:
 for archive_name, target_dirs in zip(archive_names, dirs_names):
 	# Initialize a ZipFile
 	archive_file = zipfile.ZipFile(archive_name, 'w',
-		zipfile.ZIP_DEFLATED, compresslevel=5)
+		compression_method, compresslevel=compression_level)
 
 	# Loop through the directories
 	for target_dir in target_dirs:
