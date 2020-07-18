@@ -32,7 +32,13 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 		zipfile.ZIP_DEFLATED, compresslevel=5)
 
 	# Loop through the directories
-		# ChDir to all the parent directories and zip the specified
+	for target_dir in target_dirs:
+		# Zip the directories relatively to their parent directory
+		parent_dir = os.path.dirname(target_dir)
+		archived_dir = os.path.basename(target_dir)
+		os.chdir(parent_dir)
+		# This writes only directory :(
+		archive_file.write(archived_dir)
 
 	# Close the file
 	archive_file.close()
