@@ -55,14 +55,17 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 		compression_method, compresslevel=compression_level)
 	# Log the archive file
 	print("Archiving to {}:".format(os.path.basename(archive_name)))
+
 	# Loop through the directories
 	for target_dir in target_dirs:
-		# Zip the directories relatively to their parent directory
+		# Get the needed dirnames
 		parent_dir = os.path.dirname(target_dir)
 		archived_dir = os.path.basename(target_dir)
+		# Zip the directories relatively to their parent directory
 		os.chdir(parent_dir)
 		zip_dir_rec(archived_dir, archive_file)
 		# Log the action
 		print("  + {}".format(archived_dir))
+
 	# Close the file
 	archive_file.close()
