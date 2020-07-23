@@ -35,12 +35,13 @@ compression_level = int(config["general"]["compression_level"])
 # Archiving settings
 archive_names = []
 dirs_names = []
+# Skip the DEFAULT section
 for key in list(config.keys())[1:]:
     if key.startswith("archive"):
         # Get the archive name
         archive_names.append(config[key]["name"])
     elif key.startswith("directories"):
-        # Get all the directories recutsively
+        # Get all the directories recursively
         current_dirs = []
         for dir_key in config[key]:
             current_dirs.append(config[key][dir_key])
