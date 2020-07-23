@@ -58,14 +58,18 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 
     # Loop through the directories
     for target_dir in target_dirs:
-        # Get the needed dirnames
-        parent_dir = os.path.dirname(target_dir)
-        archived_dir = os.path.basename(target_dir)
-        # Zip the directories relatively to their parent directory
-        os.chdir(parent_dir)
-        zip_dir_rec(archived_dir, archive_file)
-        # Log the action
-        print("  + {}".format(archived_dir))
+        # Check if the directory exists
+        if os.path.isdir(target_dir):
+            # Get the needed dirnames
+            parent_dir = os.path.dirname(target_dir)
+            archived_dir = os.path.basename(target_dir)
+            # Zip the directories relatively to their parent directory
+            os.chdir(parent_dir)
+            zip_dir_rec(archived_dir, archive_file)
+            # Log the action
+            print("  + {}".format(archived_dir))
+        else:
+            print("'{}' is not a directory.".format(target_dir))
 
     # Close the file
     archive_file.close()
