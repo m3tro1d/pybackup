@@ -13,3 +13,5 @@ python pybackup.py
 ```
 
 This will store all marked files in a nice bunch of zip archives.
+
+__Note__: archive files will be replaced with the new ones each time you run the script, so be careful.
