@@ -13,6 +13,19 @@ def zip_dir_rec(dirname, archive):
             archive.write(entry.path)
 
 
+def get_compression_settings(config):
+    """Returns a tuple of (compression_method, compression_level)"""
+    methods = [
+        zipfile.ZIP_STORED,
+        zipfile.ZIP_DEFLATED,
+        zipfile.ZIP_BZIP2,
+        zipfile.ZIP_LZMA
+    ]
+    cmp_method = methods[int(config["general"]["compression_method"])]
+    cmp_lvl = int(config["general"]["compression_level"])
+    return (cmp_method, cmp_lvl)
+
+
 # Parse the config file
 config = configparser.ConfigParser()
 config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
@@ -22,15 +35,7 @@ config.read(config_path)
 
 # Parse the settings from config file
 # General overall settings
-# This is really messy... TODO fix this
-methods = [
-    zipfile.ZIP_STORED,
-    zipfile.ZIP_DEFLATED,
-    zipfile.ZIP_BZIP2,
-    zipfile.ZIP_LZMA
-]
-compression_method = methods[int(config["general"]["compression_method"])]
-compression_level = int(config["general"]["compression_level"])
+compression_method, compression_level = get_compression_settings(config)
 
 # Archiving settings
 archive_names = []
