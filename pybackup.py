@@ -46,10 +46,10 @@ for key in list(config.keys())[1:]:
         # Get the archive name
         archive_names.append(config[key]["name"])
     elif key.startswith("directories"):
-        # Get all the directories recursively
+        # Get all the directories
         current_dirs = []
-        for dir_key in config[key]:
-            current_dirs.append(config[key][dir_key])
+        for directory in config[key].values():
+            current_dirs.append(directory)
         dirs_names.append(current_dirs)
 
 
