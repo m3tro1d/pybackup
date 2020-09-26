@@ -1,3 +1,4 @@
+import argparse
 import configparser
 import os
 import zipfile
@@ -24,6 +25,17 @@ def get_compression_settings(config):
     cmp_method = methods[int(config["general"]["compression_method"])]
     cmp_lvl = int(config["general"]["compression_level"])
     return (cmp_method, cmp_lvl)
+
+
+# Parse the input arguments
+parser = argparse.ArgumentParser(
+    description="""A simple backup routine in python.""")
+
+parser.add_argument("--date", "-d", action="store_true",
+                    help="append archive names with current date")
+
+args = parser.parse_args()
+append_date = args.date
 
 
 # Parse the config file
