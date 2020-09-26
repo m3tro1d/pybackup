@@ -44,8 +44,12 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--date", "-d", action="store_true",
                     help="append archive names with current date")
 
+parser.add_argument("--verbose", "-v", action="store_true",
+                    help="be verbose, e.g. print all archived files")
+
 args = parser.parse_args()
 date_flag = args.date
+verbose = args.verbose
 
 
 # Parse the config file
