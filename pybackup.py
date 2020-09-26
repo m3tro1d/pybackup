@@ -1,3 +1,4 @@
+from datetime import date
 import argparse
 import configparser
 import os
@@ -27,6 +28,15 @@ def get_compression_settings(config):
     return (cmp_method, cmp_lvl)
 
 
+def append_date(filename):
+    """Appends current date (dd-mm-yy) to the filename"""
+    basename = ".".join(filename.split(".")[:-1])
+    ext = filename.split(".")[-1]
+    today = date.today()
+    str_date = today.strftime("%d-%m-%y")
+    return "{}-{}.{}".format(basename, str_date, ext)
+
+
 # Parse the input arguments
 parser = argparse.ArgumentParser(
     description="""A simple backup routine in python.""")
@@ -35,7 +45,7 @@ parser.add_argument("--date", "-d", action="store_true",
                     help="append archive names with current date")
 
 args = parser.parse_args()
-append_date = args.date
+date_flag = args.date
 
 
 # Parse the config file
@@ -56,7 +66,11 @@ dirs_names = []
 for key in list(config.keys())[1:]:
     if key.startswith("archive"):
         # Get the archive name
-        archive_names.append(config[key]["name"])
+        # Append with date if needed
+        if date_flag:
+            archive_names.append(append_date(config[key]["name"]))
+        else:
+            archive_names.append(config[key]["name"])
     elif key.startswith("directories"):
         # Get all the directories
         current_dirs = []
