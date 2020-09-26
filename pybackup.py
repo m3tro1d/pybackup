@@ -2,6 +2,7 @@ from datetime import date
 import argparse
 import configparser
 import os
+import sys
 import zipfile
 
 
@@ -19,14 +20,35 @@ def zip_dir_rec(dirname, archive, verbose):
 
 def get_compression_settings(config):
     """Returns a tuple of (compression_method, compression_level)"""
+    """And handles possible exceptions"""
     methods = [
         zipfile.ZIP_STORED,
         zipfile.ZIP_DEFLATED,
         zipfile.ZIP_BZIP2,
         zipfile.ZIP_LZMA
     ]
-    cmp_method = methods[int(config["general"]["compression_method"])]
-    cmp_lvl = int(config["general"]["compression_level"])
+    try:
+        # Get the values & handle exceptions
+        cmp_method = methods[int(config["general"]["compression_method"])]
+        cmp_lvl = int(config["general"]["compression_level"])
+
+        # Check the level
+        if not 0 <= cmp_lvl < len(methods):
+            raise IndexError("Invalid compression level {}".format(cmp_lvl))
+
+    except ValueError as er:
+        # Handle invalid types (e.g. not numbers)
+        print("Invalid compression settings format: {}".format(er))
+        sys.exit(1)
+
+    except IndexError as er:
+        # Handle invalid values
+        print("Error!")
+        print("Invalid compression values: {}".format(er))
+        print("Using the default values (method: 1 ZIP_DEFLATED; lvl: 5).\n")
+        cmp_method = methods[1]
+        cmp_lvl = 5
+
     return (cmp_method, cmp_lvl)
 
 
