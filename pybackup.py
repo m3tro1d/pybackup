@@ -5,13 +5,15 @@ import os
 import zipfile
 
 
-def zip_dir_rec(dirname, archive):
+def zip_dir_rec(dirname, archive, verbose):
     """Zips a directory with all files recursively"""
     for entry in os.scandir(dirname):
         # Scan directories recursively
         if os.path.isdir(entry):
-            zip_dir_rec(entry, archive)
+            zip_dir_rec(entry, archive, verbose)
         else:
+            if verbose:
+                print("    + " + entry.name)
             archive.write(entry.path)
 
 
@@ -98,11 +100,11 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
             # Get the needed dirnames
             parent_dir = os.path.dirname(target_dir)
             archived_dir = os.path.basename(target_dir)
-            # Zip the directories relatively to their parent directory
             os.chdir(parent_dir)
-            zip_dir_rec(archived_dir, archive_file)
             # Log the action
             print("  + {}".format(archived_dir))
+            # Zip the directories relatively to their parent directory
+            zip_dir_rec(archived_dir, archive_file, verbose)
         else:
             print("'{}' is not a directory.".format(target_dir))
 
