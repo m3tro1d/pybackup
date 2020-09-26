@@ -15,8 +15,8 @@ def zip_dir_rec(dirname, archive):
 
 # Parse the config file
 config = configparser.ConfigParser()
-config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-    "pybackup.ini")
+config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                           "pybackup.ini")
 config.read(config_path)
 
 
