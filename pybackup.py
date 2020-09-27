@@ -89,8 +89,8 @@ compression_method, compression_level = get_compression_settings(config)
 # Archiving settings
 archive_names = []
 dirs_names = []
-# Skip the DEFAULT section
-config_sections = config.keys()[1:]
+# Skip the DEFAULT section (using list to make it subscriptable)
+config_sections = list(config.keys())[1:]
 for section in config_sections:
     if section.startswith("archive"):
         # Get the archive name
@@ -102,7 +102,7 @@ for section in config_sections:
     elif section.startswith("directories"):
         # Get all the directories
         current_dirs = []
-        for directory in config[key].values():
+        for directory in config[section].values():
             current_dirs.append(directory)
         dirs_names.append(current_dirs)
 
