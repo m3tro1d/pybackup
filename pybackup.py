@@ -137,30 +137,22 @@ def run_backup(archive_names, dirs_names, cmp_method, cmp_level):
         archive_file.close()
 
 
-# Parse the input arguments
-args = parse_arguments()
-date_flag = args.date
-verbose = args.verbose
+def main():
+    """Entry point of the script"""
+    # Parse the input arguments
+    args = parse_arguments()
+    date_flag = args.date
+    verbose = args.verbose
 
+    # Parse the config & get all settings
+    config = config_init()
+    compression_method, compression_level = get_compression_settings(config)
+    archive_names, dirs_names = get_archives_settings(config)
 
-# Parse the config file
-config = config_init()
-
-
-# Parse the settings from config file
-# General overall settings
-compression_method, compression_level = get_compression_settings(config)
-
-# Archiving settings
-archive_names, dirs_names = get_archives_settings(config)
-
-
-# Do the job
-run_backup(archive_names, dirs_names, compression_method, compression_level)
+    # Do the job
+    run_backup(archive_names, dirs_names, compression_method, compression_level)
 
 
 # Entry point
 if __name__ == "__main__":
-    # TODO Read configuration.
-    # TODO Do things with zipfile.
-    pass
+    main()
