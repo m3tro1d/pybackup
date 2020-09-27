@@ -14,7 +14,7 @@ optional arguments:
   --verbose, -v  be verbose, e.g. print all archived files
 ```
 
-First off, you need to configure the program to your needs. Modify the settings in `pybackup.ini` file according to the instructions. If you configured wrong compression values (the `general` section), the script will fallback to the default ones (`ZIP_DEFLATED` at level `5`).
+First off, you need to configure the program to your needs. Modify the settings in `pybackup.ini` file according to the instructions. If you configured wrong compression values (the `compression` section), the script will fallback to the default ones (`ZIP_STORED` at level `0`).
 
 Then, just run the script in terminal:
 
