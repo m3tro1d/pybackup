@@ -6,12 +6,19 @@ import sys
 import zipfile
 
 
+# Constants
+DEFAULT_COMPRESSION_LEVEL = 0
+DEFAULT_COMPRESSION_METHOD = "ZIP_STORED"
+
+
 def zip_dir_rec(dirname, archive, verbose):
     """Zips a directory with all files recursively"""
+    # Scan directories recursively
     for entry in os.scandir(dirname):
-        # Scan directories recursively
+        # If it's a directory, zip it recursively
         if os.path.isdir(entry):
             zip_dir_rec(entry, archive, verbose)
+        # If it's a file, just add it
         else:
             if verbose:
                 print("    + " + entry.name)
@@ -19,37 +26,28 @@ def zip_dir_rec(dirname, archive, verbose):
 
 
 def get_compression_settings(config):
-    """Returns a tuple of (compression_method, compression_level)"""
-    """And handles possible exceptions"""
-    methods = [
-        zipfile.ZIP_STORED,
-        zipfile.ZIP_DEFLATED,
-        zipfile.ZIP_BZIP2,
-        zipfile.ZIP_LZMA
-    ]
+    """Return a tuple of (compression_level, compression_method)"""
+    # Methods dictionary
+    method_constant = {"ZIP_STORED"   : zipfile.ZIP_STORED,
+                       "ZIP_DEFLATED" : zipfile.ZIP_DEFLATED,
+                       "ZIP_BZIP2"    : zipfile.ZIP_BZIP2,
+                       "ZIP_LZMA"     : zipfile.ZIP_LZMA}
+
+    # Get compression level
     try:
-        # Get the values & handle exceptions
-        cmp_method = methods[int(config["general"]["compression_method"])]
-        cmp_lvl = int(config["general"]["compression_level"])
+        compresion_level = config.getint("compression", "level")
+    except ValueError:
+        print("Invalid compression level, using default value.")
+        compression_level = DEFAULT_COMPRESSION_LEVEL
 
-        # Check the level
-        if not 0 <= cmp_lvl < len(methods):
-            raise IndexError("Invalid compression level {}".format(cmp_lvl))
+    # Get compression method.
+    try:
+        compression_method = method_constant[config["compression"]["method"]]
+    except KeyError:
+        print("Invalid compression method, using default value.")
+        compression_method = DEFAULT_COMPRESSION_METHOD
 
-    except ValueError as er:
-        # Handle invalid types (e.g. not numbers)
-        print("Invalid compression settings format: {}".format(er))
-        sys.exit(1)
-
-    except IndexError as er:
-        # Handle invalid values
-        print("Error!")
-        print("Invalid compression values: {}".format(er))
-        print("Using the default values (method: 1 ZIP_DEFLATED; lvl: 5).\n")
-        cmp_method = methods[1]
-        cmp_lvl = 5
-
-    return (cmp_method, cmp_lvl)
+    return compression_level, compression_method
 
 
 def append_date(filename):
@@ -61,6 +59,7 @@ def append_date(filename):
     return "{}-{}.{}".format(basename, str_date, ext)
 
 
+# TODO put this to a separate function
 # Parse the input arguments
 parser = argparse.ArgumentParser(
     description="""A simple backup routine in python.""")
@@ -91,15 +90,16 @@ compression_method, compression_level = get_compression_settings(config)
 archive_names = []
 dirs_names = []
 # Skip the DEFAULT section
-for key in list(config.keys())[1:]:
-    if key.startswith("archive"):
+config_sections = config.keys()[1:]
+for section in config_sections:
+    if section.startswith("archive"):
         # Get the archive name
         # Append with date if needed
         if date_flag:
-            archive_names.append(append_date(config[key]["name"]))
+            archive_names.append(append_date(config[section]["name"]))
         else:
-            archive_names.append(config[key]["name"])
-    elif key.startswith("directories"):
+            archive_names.append(config[section]["name"])
+    elif section.startswith("directories"):
         # Get all the directories
         current_dirs = []
         for directory in config[key].values():
@@ -107,6 +107,7 @@ for key in list(config.keys())[1:]:
         dirs_names.append(current_dirs)
 
 
+# TODO put this to a separate function
 # Add the directories to the specified archives
 for archive_name, target_dirs in zip(archive_names, dirs_names):
     # Initialize a ZipFile
@@ -132,3 +133,10 @@ for archive_name, target_dirs in zip(archive_names, dirs_names):
 
     # Close the file
     archive_file.close()
+
+
+# Entry point
+if __name__ == "__main__":
+    # TODO Read configuration.
+    # TODO Do things with zipfile.
+    pass
