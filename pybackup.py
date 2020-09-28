@@ -7,6 +7,8 @@ import zipfile
 
 
 # Constants
+DEFAULT_CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                                   "pybackup.ini")
 DEFAULT_COMPRESSION_LEVEL = 0
 DEFAULT_COMPRESSION_METHOD = "ZIP_STORED"
 
@@ -29,9 +31,7 @@ def parse_arguments():
 def config_init():
     """Return a configparser.ConfigParser object with current options"""
     config = configparser.ConfigParser()
-    config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                               "pybackup.ini")
-    config.read(config_path)
+    config.read(DEFAULT_CONFIG_PATH)
     return config
 
 
