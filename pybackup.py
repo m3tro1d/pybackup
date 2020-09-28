@@ -74,7 +74,7 @@ def get_compression_settings(config):
     return compression_level, compression_method
 
 
-def get_archives_settings(config):
+def get_archives_settings(config, date_flag):
     """Return two lists: archive_names, dirs_names"""
     archive_names = []
     dirs_names = []
@@ -108,7 +108,9 @@ def append_date(filename):
     return "{}-{}.{}".format(basename, str_date, ext)
 
 
-def run_backup(archive_names, dirs_names, cmp_method, cmp_level):
+def run_backup(archive_names, dirs_names,
+               cmp_method, cmp_level,
+               verbose):
     """Actual archiving happens here"""
     # Add the directories to the specified archives
     for archive_name, target_dirs in zip(archive_names, dirs_names):
@@ -147,10 +149,13 @@ def main():
     # Parse the config & get all settings
     config = config_init()
     compression_method, compression_level = get_compression_settings(config)
-    archive_names, dirs_names = get_archives_settings(config)
+    # TODO make date appending a separate function
+    archive_names, dirs_names = get_archives_settings(config, date_flag)
 
     # Do the job
-    run_backup(archive_names, dirs_names, compression_method, compression_level)
+    run_backup(archive_names, dirs_names,
+               compression_method, compression_level,
+               verbose)
 
 
 # Entry point
