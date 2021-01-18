@@ -29,8 +29,8 @@ class CustomArgumentParser(argparse.ArgumentParser):
 
         Options:
           -h,  --help      show help
-          -d,  --date      append archive names with current date
-          -v,  --verbose   log all archived files
+          -d,  --date      append archive names with current date (def: {self.get_default("date")})
+          -v,  --verbose   log all archived files (def: {self.get_default("verbose")})
 
         For more information visit:
         https://github.com/m3tro1d/pybackup
