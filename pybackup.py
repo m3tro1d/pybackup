@@ -155,23 +155,20 @@ def run_backup(archive_names, dirs_names,
 
 def main():
     """Main script"""
-    # Parse the input arguments
-    args = parse_arguments()
-    date_flag = args.date
-    verbose = args.verbose
-
     # Parse the config & get all settings
     config = config_init()
     compression_method, compression_level = get_compression_settings(config)
     # TODO make date appending a separate function
-    archive_names, dirs_names = get_archives_settings(config, date_flag)
+    archive_names, dirs_names = get_archives_settings(config, args.date)
 
     # Do the job
     run_backup(archive_names, dirs_names,
                compression_method, compression_level,
-               verbose)
+               args.verbose)
 
 
 # Entry point
 if __name__ == "__main__":
+    args = parse_arguments()
+
     main()
