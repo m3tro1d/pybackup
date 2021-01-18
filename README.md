@@ -6,12 +6,12 @@ Basic backup routine written in python.
 
 ## Usage
 ```
-usage: pybackup.py [-h] [--date] [--verbose]
+Usage: pybackup.py [OPTIONS]
 
-optional arguments:
-  -h, --help     show this help message and exit
-  --date, -d     append archive names with current date
-  --verbose, -v  be verbose, e.g. print all archived files
+Options:
+  -h,  --help      show help
+  -d,  --date      append archive names with current date (def: False)
+  -v,  --verbose   log all archived files (def: False)
 ```
 
 First off, you need to configure the program to your needs. Modify the settings in `pybackup.ini` file according to the instructions. If you configured wrong compression values (the `compression` section), the script will fallback to the default ones (`ZIP_STORED` at level `0`).
@@ -24,4 +24,4 @@ python pybackup.py
 
 This will store all marked files in a nice bunch of zip archives.
 
-__Note__: archive files will be replaced with the new ones each time you run the script, so be careful. You can use `-d` argument to append archives names with current date to leave previous archives untouched is they weren't created today, of course.
+**Note**: archive files will be replaced with the new ones each time you run the script, so be careful. You can use `-d` argument to append archives names with current date to leave previous archives untouched is they weren't created today, of course.
