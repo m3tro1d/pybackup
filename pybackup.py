@@ -1,4 +1,5 @@
 from datetime import date
+from textwrap import dedent
 import argparse
 import configparser
 import os
@@ -18,7 +19,23 @@ DEFAULT_COMPRESSION_METHOD = "ZIP_STORED"
 # Classes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+class CustomArgumentParser(argparse.ArgumentParser):
+    """Override ArgumentParser's help message"""
+    def format_help(self):
+        help_text = dedent(f"""\
+        Pybackup - a simple backup routine.
 
+        Usage: {self.prog} [OPTIONS]
+
+        Options:
+          -h,  --help      show help
+          -d,  --date      append archive names with current date
+          -v,  --verbose   log all archived files
+
+        For more information visit:
+        https://github.com/m3tro1d/pybackup
+        """)
+        return help_text
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Functions
@@ -26,14 +43,11 @@ DEFAULT_COMPRESSION_METHOD = "ZIP_STORED"
 
 def parse_arguments():
     """Process & return an argparse.ArgumentParser object"""
-    parser = argparse.ArgumentParser(
-        description="""A simple backup routine in python.""")
+    parser = CustomArgumentParser(usage="%(prog)s [OPTIONS]")
 
-    parser.add_argument("--date", "-d", action="store_true",
-                        help="append archive names with current date")
+    parser.add_argument("-d", "--date", action="store_true")
 
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="be verbose, e.g. print all archived files")
+    parser.add_argument("-v", "--verbose", action="store_true")
 
     args = parser.parse_args()
     return args
