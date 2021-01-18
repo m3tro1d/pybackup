@@ -5,13 +5,24 @@ import os
 import sys
 import zipfile
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Globals
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Constants
 DEFAULT_CONFIG_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                    "pybackup.ini")
 DEFAULT_COMPRESSION_LEVEL = 0
 DEFAULT_COMPRESSION_METHOD = "ZIP_STORED"
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Classes
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Functions
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def parse_arguments():
     """Process & return an argparse.ArgumentParser object"""
@@ -138,9 +149,12 @@ def run_backup(archive_names, dirs_names,
         # Close the file
         archive_file.close()
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Main script
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def main():
-    """Entry point of the script"""
+    """Main script"""
     # Parse the input arguments
     args = parse_arguments()
     date_flag = args.date
