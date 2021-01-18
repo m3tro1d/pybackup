@@ -42,7 +42,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def parse_arguments():
-    """Process & return an argparse.ArgumentParser object"""
+    """Process & return an CustomArgumentParser object"""
     parser = CustomArgumentParser(usage="%(prog)s [OPTIONS]")
 
     parser.add_argument("-d", "--date", action="store_true")
