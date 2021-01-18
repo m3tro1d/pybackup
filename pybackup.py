@@ -158,7 +158,7 @@ def run_backup(archive_names, dirs_names,
                 # Zip the directories relatively to their parent directory
                 zip_dir_rec(archived_dir, archive_file, verbose)
             else:
-                print(f"'{target_dir}' is not a directory.")
+                print(f"'{target_dir}' is not a directory.", file=sys.stderr)
 
         # Close the file
         archive_file.close()
@@ -183,4 +183,8 @@ def main():
 if __name__ == "__main__":
     args = parse_arguments()
 
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nUser interrupt", file=sys.stderr)
+        sys.exit(1)
